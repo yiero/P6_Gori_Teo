@@ -31,8 +31,8 @@ exports.deleteSauce = (req, res, next) => {
         });
       }
       if (sauce.userId !== req.auth.userId) {
-        return res.status(401).json({
-          error: new Error ('Requête non authrisée !')
+        return res.status(403).json({
+          error: new Error ('Requête non authorisée !')
         });
       }
       Sauce.deleteOne({_id: req.params.id}) 
