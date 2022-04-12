@@ -9,8 +9,8 @@ exports.createSauce = (req, res, next) => {
       ...sauceObject,
       imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
     });
-    //const likes = 0; // taille du array UserLiked
-    //const dislikes = 0;
+    sauce.likes = 0; // taille du array UserLiked
+    sauce.dislikes = 0;
     sauce.save()
       .then(() => res.status(201).json({ message: 'Sauce enregistrée !' }))
       .catch(error => res.status(400).json({ error }));
