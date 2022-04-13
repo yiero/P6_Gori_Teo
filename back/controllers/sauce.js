@@ -60,9 +60,6 @@ exports.likeSauce = (req, res, next) => {
   //1 = like;
   //0 = unlike;
   //2 = dislike;
-  usersLiked = Sauce.usersLiked;
-  usersLiked.push(user.req.auth);
-
   for (var i = 0; i < Sauce.usersLiked.lenght; i++) {
     if (user.req.auth === Sauce.userId) {
         Sauce.usersLiked.splice(i, 1);
