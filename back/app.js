@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const path = require('path');
+//const morgan = require('morgan');
 
 const sauceRoutes = require('./routes/sauce');
 const userRoutes = require('./routes/user');
@@ -15,6 +16,11 @@ mongoose.connect('mongodb+srv://Teo:passe@cluster0.y776q.mongodb.net/piiquante?r
 
 const app = express();
 
+//app.use(morgan('combined'));
+
+//app.get('/', function(req,res) {
+//  res.send('hello, world!')
+//});
 
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');

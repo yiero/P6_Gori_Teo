@@ -60,19 +60,31 @@ exports.likeSauce = (req, res, next) => {
   //1 = like;
   //0 = unlike;
   //2 = dislike;
-  //usersLiked = Sauce.usersLiked;
-  //usersLiked.push(req.auth);
+  usersLiked = Sauce.usersLiked;
+  usersLiked.push(user.req.auth);
 
-  //for (var i = 0; i < userLiked.lenght; i++) {
-  //  if (req.auth === userId) {
-  //      userLiked.splice(i, 1);
-  //  }
-  //}
+  for (var i = 0; i < Sauce.usersLiked.lenght; i++) {
+    if (user.req.auth === Sauce.userId) {
+        Sauce.usersLiked.splice(i, 1);
+      }
+  };
 
-  //if (1 == like){
-  //  userLiked.push(req.auth);
-  //}
-  //like = usersLiked.lenght
+  for (var i = 0; i < Sauce.usersDisliked.lenght; i++) {
+    if (user.req.auth === Sauce.userId) {
+        Sauce.usersDisliked.splice(i, 1);
+      }
+  };
+
+  if (1 == Sauce.likes){
+    Sauce.usersLiked.push(user.req.auth);
+  }
+
+  if (-1 == Sauce.likes){
+    Sauce.usersDisliked.push(user.req.auth);
+  }
+
+  Sauce.likes = Sauce.usersLiked.lenght;
+  Sauce.dislikes = Sauce.usersDisliked.lenght;
 };
 
 // userId dans le middleware req.auth
