@@ -9,7 +9,7 @@ exports.createSauce = (req, res, next) => {
       ...sauceObject,
       imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
     });
-    sauce.likes = 0; // taille du array UserLiked
+    sauce.likes = 0; 
     sauce.dislikes = 0;
     sauce.save()
       .then(() => res.status(201).json({ message: 'Sauce enregistrée !' }))
@@ -53,35 +53,22 @@ exports.modifySauce = (req, res, next) => {
     .catch(error => res.status(400).json({ error }));
 };
 
-exports.likeSauce = (req, res, next) => {
-  Sauce.findOne({ _id: req.params.id })
-      .then(() => res.status(200).json( {message: 'Sauce aimée !' }))
-      .catch(error => res.status(404).json({ error }));
-  //1 = like;
-  //0 = unlike;
-  //2 = dislike;
-  for (var i = 0; i < Sauce.usersLiked.lenght; i++) {
-    if (user.req.auth === Sauce.userId) {
-        Sauce.usersLiked.splice(i, 1);
-      }
-  };
-
-  for (var i = 0; i < Sauce.usersDisliked.lenght; i++) {
-    if (user.req.auth === Sauce.userId) {
-        Sauce.usersDisliked.splice(i, 1);
-      }
-  };
-
-  if (1 == Sauce.likes){
-    Sauce.usersLiked.push(user.req.auth);
+exports.likeSauce = async (req, res, next) => {
+  try {
+    let sauce = await Sauce.findById( req.params.id );
+  
+    if (req.body.like == 1) {                 
+      sauce.usersLiked.push(req.auth.userId); 
+    }
+    if (req.body.like == -1) { 
+      sauce.usersDisliked.push(req.auth.userId);
+    } 
+    sauce.likes = sauce.usersLiked.lenght;
+    sauce.dislikes = sauce.usersDisliked.lenght;
+    sauce.save()
+        .then(() => res.status(200).json({ message: 'Interaction mise à jour !' })) // changer le message
+        .catch(error => res.status(404).json({ error }));
+  } catch {
+    error => res.status(404).json({ error });
   }
-
-  if (-1 == Sauce.likes){
-    Sauce.usersDisliked.push(user.req.auth);
-  }
-
-  Sauce.likes = Sauce.usersLiked.lenght;
-  Sauce.dislikes = Sauce.usersDisliked.lenght;
 };
-
-// userId dans le middleware req.auth
