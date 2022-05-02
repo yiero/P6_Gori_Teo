@@ -58,7 +58,7 @@ exports.likeSauce = async (req, res, next) => {
     let sauce = await Sauce.findById( req.params.id );
 
   for (var i = 0; i < sauce.usersLiked.length && sauce.usersDisliked.length; i++) {
-    if (req.auth.userId == sauce.userId) {
+    if (req.auth.userId == sauce.userId[i]) {
         sauce.usersLiked.splice(i, 1)
         console.log("éffacé !");
     };
