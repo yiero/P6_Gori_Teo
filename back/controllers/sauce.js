@@ -56,17 +56,24 @@ exports.modifySauce = (req, res, next) => {
 exports.likeSauce = async (req, res, next) => {
   try {
     let sauce = await Sauce.findById( req.params.id );
-  
+
+  for (var i = 0; i < sauce.usersLiked.length && sauce.usersDisliked.length; i++) {
+    if (req.auth.userId == sauce.userId) {
+        sauce.usersLiked.splice(i, 1)
+        console.log("éffacé !");
+    };
+  };
+    
     if (req.body.like == 1) {                 
       sauce.usersLiked.push(req.auth.userId); 
     }
     if (req.body.like == -1) { 
       sauce.usersDisliked.push(req.auth.userId);
     } 
-    sauce.likes = sauce.usersLiked.lenght;
-    sauce.dislikes = sauce.usersDisliked.lenght;
+    sauce.likes = sauce.usersLiked.length;
+    sauce.dislikes = sauce.usersDisliked.length;
     sauce.save()
-        .then(() => res.status(200).json({ message: 'Interaction mise à jour !' })) // changer le message
+        .then(() => res.status(200).json({ message: 'Interaction mise à jour !' })) 
         .catch(error => res.status(404).json({ error }));
   } catch {
     error => res.status(404).json({ error });
