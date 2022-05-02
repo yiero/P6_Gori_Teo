@@ -57,12 +57,18 @@ exports.likeSauce = async (req, res, next) => {
   try {
     let sauce = await Sauce.findById( req.params.id );
 
-  for (var i = 0; i < sauce.usersLiked.length && sauce.usersDisliked.length; i++) {
-    if (req.auth.userId == sauce.userId[i]) {
-        sauce.usersLiked.splice(i, 1)
-        console.log("éffacé !");
+    for (var i = 0; i < sauce.usersLiked.length; i++) {
+      if (req.auth.userId == sauce.userId) {
+          sauce.usersLiked.splice(i, 1)
+          sauce.usersDisliked.splice(i, 1)
+      };
     };
-  };
+    for (var i = 0; i < sauce.usersDisliked.length; i++) {
+      if (req.auth.userId == sauce.userId) {
+          sauce.usersLiked.splice(i, 1)
+          sauce.usersDisliked.splice(i, 1)
+      };
+    };
     
     if (req.body.like == 1) {                 
       sauce.usersLiked.push(req.auth.userId); 
