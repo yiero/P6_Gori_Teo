@@ -3,7 +3,6 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const path = require('path');
 const dotenv = require('dotenv').config();
-//const morgan = require('morgan');
 
 const sauceRoutes = require('./routes/sauce');
 const userRoutes = require('./routes/user');
@@ -16,12 +15,6 @@ mongoose.connect(process.env.MONGOOSE_KEY,
   .catch(() => console.log('Connexion à MongoDB échouée !'));
 
 const app = express();
-
-//app.use(morgan('combined'));
-
-//app.get('/', function(req,res) {
-//  res.send('hello, world!')
-//});
 
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
