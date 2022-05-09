@@ -60,12 +60,10 @@ exports.likeSauce = async (req, res, next) => {
     for (var i = 0; i < sauce.usersLiked.length; i++) {
       if (req.auth.userId == sauce.userId) {
           sauce.usersLiked.splice(i, 1)
-          sauce.usersDisliked.splice(i, 1)
       };
     };
     for (var i = 0; i < sauce.usersDisliked.length; i++) {
       if (req.auth.userId == sauce.userId) {
-          sauce.usersLiked.splice(i, 1)
           sauce.usersDisliked.splice(i, 1)
       };
     };
