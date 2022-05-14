@@ -9,17 +9,13 @@ const userRoutes = require('./routes/user');
 const fs = require('fs');
 const helmet = require('helmet');
 
-
-
 mongoose.connect(process.env.MONGOOSE_KEY,
   { useNewUrlParser: true,
     useUnifiedTopology: true })
   .then(() => console.log('Connexion à MongoDB réussie !'))
   .catch(() => console.log('Connexion à MongoDB échouée !'));
 
-
 const app = express();
-
 
 let accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' });
 app.use(morgan('combined', {stream: accessLogStream}));
